@@ -1,9 +1,10 @@
+<!doctype html>
 <html>
 <head>
     {% if title %}
-        <title>{{ title }} - microblog</title>
+        <title>{{ title }} - Microblog</title>
     {% else %}
-        <title>microblog</title>
+        <title>Welcome to Microblog</title>
     {% endif %}
 </head>
 <body>
@@ -15,6 +16,7 @@
     {% else %}
         <a href="{{ url_for('logout') }}">Logout</a>
     {% endif %}
+    <a href="{{ url_for('carbo') }}">Home</a>
 </div>
 <hr>
 {% with messages = get_flashed_messages() %}

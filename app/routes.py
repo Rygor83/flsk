@@ -1,27 +1,26 @@
 from flask import render_template, flash, redirect, url_for, request
-from app import app, db
-from app.forms import LoginForm, RegistrationForm
-from app.models import User
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
+from app import app, db
+from app.forms import LoginForm, RegistrationForm, CarboForm
+from app.models import User
 
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    user = {'username': 'Rygor'}
     posts = [
         {
             'author': {'username': 'John'},
-            'body': 'Beautiful day in Minsk!'
+            'body': 'Beautiful day in Portland!'
         },
         {
             'author': {'username': 'Susan'},
-            'body': 'The Avenger movie was so cool!'
+            'body': 'The Avengers movie was so cool!'
         }
     ]
-    return render_template("index.html", title='Home Page', posts=posts)
+    return render_template('index.html', title='Home', posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -61,3 +60,21 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/carbo', methods=['GET', 'POST'])
+def carbo():
+    form = CarboForm()
+    if form.validate_on_submit():
+        def carbo_calc():
+            c1 = form.carbo_per_100g.data
+            c2 = form.give_xe.data
+            c3 = form.give_gramm
+
+        # user = User(username=form.username.data, email=form.email.data)
+        # user.set_password(form.password.data)
+        # db.session.add(user)
+        # db.session.commit()
+        # flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('carbo.html', title='Carbohydrates calculator', form=form)
