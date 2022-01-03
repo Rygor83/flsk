@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
+from wtforms import StringField, TextAreaField, SubmitField
+from wtforms.validators import DataRequired, Length
 
 
 class LoginForm(FlaskForm):
@@ -35,3 +37,9 @@ class CarboForm(FlaskForm):
     give_gramm = IntegerField('How much gramm will give', default=0)
     give_xe = IntegerField('How much XE will give', default=0)
     submit = SubmitField('Calculate')
+
+
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')
