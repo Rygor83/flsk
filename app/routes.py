@@ -65,16 +65,20 @@ def register():
 @app.route('/carbo', methods=['GET', 'POST'])
 def carbo():
     form = CarboForm()
+    amount = 0
+    message = ""
     if form.validate_on_submit():
-        def carbo_calc():
-            c1 = form.carbo_per_100g.data
-            c2 = form.give_xe.data
-            c3 = form.give_gramm
-
-        # user = User(username=form.username.data, email=form.email.data)
-        # user.set_password(form.password.data)
-        # db.session.add(user)
-        # db.session.commit()
-        # flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
+        if form.give_gramm.data and not form.give_xe.data:
+            amount = float(form.give_gramm.data) * float(form.carbo_per_100g.data) / 100 / 12
+            measure = 'XE'
+            message = f"Results: {round(amount)} {measure}"
+        elif form.give_xe.data and not form.give_gramm.data:
+            amount = float(form.give_xe.data) * 12 * 100 / float(form.carbo_per_100g.data)
+            measure = 'gramm'
+            message = f"Results: {round(amount)} {measure}"
+        elif form.give_xe.data and form.give_xe.data:
+            message = f"Please fill in only one of the fields: either 'How much gramm will give' or 'How much XE will give'"
+        elif not form.give_xe.data and not form.give_xe.data:
+            message = f"Please fill in only one of the fields: either 'How much gramm will give' or 'How much XE will give'"
+        flash(message)
     return render_template('carbo.html', title='Carbohydrates calculator', form=form)

@@ -32,7 +32,6 @@ class RegistrationForm(FlaskForm):
 
 class CarboForm(FlaskForm):
     carbo_per_100g = IntegerField('Carbo per 100 g')
-    give_gramm = IntegerField('How much gramm will give')
-    give_xe = IntegerField('How much XE will give')
-    result = IntegerField('Result: ')
+    give_gramm = IntegerField('How much gramm will give', default=0)
+    give_xe = IntegerField('How much XE will give', default=0)
     submit = SubmitField('Calculate')
